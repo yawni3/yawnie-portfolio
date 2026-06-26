@@ -1,5 +1,5 @@
 // App.js
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import './App.css';
 import { 
@@ -77,10 +77,28 @@ const categories = ["All", "Websites", "App", "Brands", "Games", "Other"];
 
 function App() {
   const [activeCategory, setActiveCategory] = useState("All");
+  
+  // Scroll için ref'ler
+  const projectsRef = useRef(null);
+  const aboutRef = useRef(null);
+  const heroRef = useRef(null);
 
   const filteredProjects = activeCategory === "All" 
     ? userData.projects 
     : userData.projects.filter(p => p.category === activeCategory);
+
+  // Scroll fonksiyonları
+  const scrollToProjects = () => {
+    projectsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const scrollToAbout = () => {
+    aboutRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <HelmetProvider>
@@ -177,7 +195,7 @@ function App() {
         </Helmet>
 
         {/* HERO */}
-        <section className="creator-hero">
+        <section className="creator-hero" ref={heroRef}>
           <div className="hero-banner">
             <img 
               src="/assets/portfolio-banner.png" 
@@ -200,9 +218,15 @@ function App() {
                   I turn ideas into real products, websites and experiences that make people smile.
                 </p>
                 <div className="hero-buttons">
-                  <button className="btn-primary">View Projects</button>
-                  <button className="btn-secondary">My Playground</button>
-                  <button className="btn-secondary">My Portfolio</button>
+                  <button className="btn-primary" onClick={scrollToProjects}>
+                    View Projects
+                  </button>
+                  <button className="btn-secondary" onClick={scrollToAbout}>
+                    About Me
+                  </button>
+                  <button className="btn-secondary" onClick={scrollToTop}>
+                    My Portfolio
+                  </button>
                 </div>
               </div>
             </div>
@@ -210,7 +234,7 @@ function App() {
         </section>
 
         {/* ABOUT */}
-        <section className="about-section">
+        <section className="about-section" ref={aboutRef}>
           <div className="about-wrapper">
             {/* Wizard - Sol */}
             <div className="about-left">
@@ -304,7 +328,7 @@ function App() {
         </section>
 
         {/* PROJECTS */}
-        <section className="projects-section">
+        <section className="projects-section" ref={projectsRef}>
           <div className="projects-container">
             <h2>🌟 FEATURED PROJECTS</h2>
             <p className="projects-subtitle">Some of my favorite things I built.</p>
@@ -346,7 +370,7 @@ function App() {
           </div>
         </section>
 
-        {/* FOOTER */}
+        {/* FOOTER - "Let's be friends!" eklendi */}
         <footer className="creator-footer">
           <div className="footer-container">
             <div className="footer-banner-left">
@@ -365,12 +389,15 @@ function App() {
                   "I don't like building ordinary products. I like building worlds people remember."
                 </p>
                 
+                {/* Let's be friends! başlığı */}
+                <h3 className="footer-friends-title">🤝 Let's be friends!</h3>
+                
                 <div className="footer-social">
-                  <a href="https://www.artstation.com/yawniepie" aria-label="Artstation"><FaArtstation /></a>
-                  <a href="https://www.youtube.com/@yawn.pi3" aria-label="YouTube"><FaYoutube /></a>
-                  <a href="https://yawnpie.itch.io" aria-label="Itch.io"><FaItchIo /></a>
-                  <a href="https://www.instagram.com/yawn.pie" aria-label="Instagram"><FaInstagram /></a>
-                  <a href="https://www.pinterest.com/yawnpie" aria-label="Pinterest"><FaPinterest /></a>
+                  <a href="https://www.artstation.com/yawniepie" target="_blank" rel="noopener noreferrer" aria-label="Artstation"><FaArtstation /></a>
+                  <a href="https://www.youtube.com/@yawn.pi3" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><FaYoutube /></a>
+                  <a href="https://yawnpie.itch.io" target="_blank" rel="noopener noreferrer" aria-label="Itch.io"><FaItchIo /></a>
+                  <a href="https://www.instagram.com/yawn.pie" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FaInstagram /></a>
+                  <a href="https://www.pinterest.com/yawnpie" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><FaPinterest /></a>
                 </div>
                 
                 <div className="footer-links">
